@@ -2,25 +2,37 @@
 
 ![teaser](assets/teaser.png)
 
-**ASIG** is the official codebase for **Arbitrary-Shaped Image Generation via Spherical Neural Field Diffusion**.
-It is designed to support high-quality image synthesis across diverse image shapes, including **perspective**, **panoramic**, and **fisheye** views, while enabling explicit control over spatial attributes such as **viewpoint**, **field-of-view (FOV)**, and **resolution**.
+<p align="justify">
+  <strong>ASIG</strong> is the official codebase for <strong>Arbitrary-Shaped Image Generation via Spherical Neural Field Diffusion</strong>.
+  It is designed to support high-quality image synthesis across diverse image shapes, including <strong>perspective</strong>,
+  <strong>panoramic</strong>, and <strong>fisheye</strong> views, while enabling explicit control over spatial attributes
+  such as <strong>viewpoint</strong>, <strong>field-of-view (FOV)</strong>, and <strong>resolution</strong>.
+</p>
 
-The framework is built on two key ideas from the paper:
+<p align="justify">
+  The framework is built on two key ideas from the paper:
+</p>
 
-- **Mesh-based spherical latent diffusion**, which generates a complete scene representation on the sphere and uses seam-aware denoising to maintain semantic and spatial consistency across viewpoints.
-- **Spherical neural field sampling**, which extracts arbitrary regions from the scene representation with coordinate conditions, enabling flexible and distortion-aware image generation at different shapes and resolutions.
+<ul align="justify">
+  <li><strong>Mesh-based spherical latent diffusion</strong>, which generates a complete scene representation on the sphere and uses seam-aware denoising to maintain semantic and spatial consistency across viewpoints.</li>
+  <li><strong>Spherical neural field sampling</strong>, which extracts arbitrary regions from the scene representation with coordinate conditions, enabling flexible and distortion-aware image generation at different shapes and resolutions.</li>
+</ul>
 
 ## 🌟 Features
 
 ![result](assets/Visualization.png)
 
-- **Panoramic, Perspective, and Fisheye Generation**: ASIG supports high-quality image generation across three image forms within a unified framework: panoramic images, perspective images, and fisheye images.
-- **Controllable Spatial Attributes**: ASIG enables explicit control over image resolution, camera viewpoint, and field-of-view (FOV) during generation.
-- **Arbitrary-Shaped Image Generation**: In ASIG, "arbitrary-shaped" means not only supporting different projection types, but also flexibly generating images with different spatial attributes under a single generative framework.
+<ul align="justify">
+  <li><strong>Panoramic, Perspective, and Fisheye Generation</strong>: ASIG supports high-quality image generation across three image forms within a unified framework: panoramic images, perspective images, and fisheye images.</li>
+  <li><strong>Controllable Spatial Attributes</strong>: ASIG enables explicit control over image resolution, camera viewpoint, and field-of-view (FOV) during generation.</li>
+  <li><strong>Arbitrary-Shaped Image Generation</strong>: In ASIG, "arbitrary-shaped" means not only supporting different projection types, but also flexibly generating images with different spatial attributes under a single generative framework.</li>
+</ul>
 
 ## 🔨 Installation
 
-We recommend the following environment:
+<p align="justify">
+  We recommend the following environment:
+</p>
 
 - Linux
 - Python `3.9`
@@ -28,21 +40,26 @@ We recommend the following environment:
 - PyTorch `2.0.1`
 - torchvision `0.15.2`
 
-Create a fresh conda environment:
+<p align="justify">
+  Create a fresh conda environment:
+</p>
 
 ```bash
 conda create -n ASIG python=3.9 -y
 conda activate ASIG
 ```
 
-Install PyTorch first. For CUDA 11.8, a typical command is:
+<p align="justify">
+  Install PyTorch first. For CUDA 11.8, a typical command is:
+</p>
 
 ```bash
 pip install torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cu118
 ```
 
-
-Install the repository requirements:
+<p align="justify">
+  Install the repository requirements:
+</p>
 
 ```bash
 pip install -r requirements.txt
@@ -50,13 +67,19 @@ pip install -r requirements.txt
 
 ## 🚀 Train
 
-Run all commands from the repository root.
+<p align="justify">
+  Run all commands from the repository root.
+</p>
 
 ### Training Data
 
-The training dataset can be downloaded from [resources](https://pan.baidu.com/s/10-q5hfiGoQWiCP7B2WV6Xg?pwd=1234) with extraction code `1234`.
+<p align="justify">
+  The training dataset can be downloaded from <a href="https://pan.baidu.com/s/10-q5hfiGoQWiCP7B2WV6Xg?pwd=1234">resources</a> with extraction code <code>1234</code>.
+</p>
 
-After downloading, place the dataset files under `dataset/`, or set:
+<p align="justify">
+  After downloading, place the dataset files under <code>dataset/</code>, or set:
+</p>
 
 ```bash
 export ASIG_DATASET_ROOT=/path/to/dataset
@@ -64,26 +87,38 @@ export ASIG_DATASET_ROOT=/path/to/dataset
 
 ### Arg-map Generation
 
-If the downloaded dataset package does not include the required arg-map `.mat` files, you can generate them with:
+<p align="justify">
+  If the downloaded dataset package does not include the required arg-map <code>.mat</code> files, you can generate them with:
+</p>
 
 ```bash
 bash make_arg_map.sh dataset
 bash make_arg_map.sh panorama
 ```
 
-This step generates the geometric index / mapping files used by ASIG. In practice, the generated arg-map determines the target image resolution, camera viewpoint, field-of-view (FOV), and image type used for sampling, such as panoramic, perspective, or fisheye-style outputs.
+<p align="justify">
+  This step generates the geometric index / mapping files used by ASIG. In practice, the generated arg-map determines the target image resolution,
+  camera viewpoint, field-of-view (FOV), and image type used for sampling, such as panoramic, perspective, or fisheye-style outputs.
+</p>
 
 #### Arg-map Indexing with L-subdivision
 
 ![L_sub](assets/L_sub.png)
 
-This figure shows how the sphere is discretized before arg-map generation. ASIG first builds a subdivided icosahedron on the sphere, then uses the vertices / faces on this structure as geometric indices for later sampling and rendering.
+<p align="justify">
+  This figure shows how the sphere is discretized before arg-map generation. ASIG first builds a subdivided icosahedron on the sphere, then uses the vertices / faces on this structure as geometric indices for later sampling and rendering.
+</p>
 
-In practice, the subdivision makes the spherical representation denser and more uniform, so each image location can be matched to a stable spherical index. This is why the arg-map can serve as a lookup table between image-space coordinates and the underlying spherical scene representation.
+<p align="justify">
+  In practice, the subdivision makes the spherical representation denser and more uniform, so each image location can be matched to a stable spherical index.
+  This is why the arg-map can serve as a lookup table between image-space coordinates and the underlying spherical scene representation.
+</p>
 
 ### S1 Training
 
-`S1` uses the config file `cfgs/s1.yaml`.
+<p align="justify">
+  <code>S1</code> uses the config file <code>cfgs/s1.yaml</code>.
+</p>
 
 ```bash
 bash s1.sh
@@ -99,7 +134,9 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --standalone --nproc-per-node=8 ru
 
 ### S2 Training
 
-`S2` uses the config file `cfgs/s2.yaml` and loads the stage-2 related checkpoints under `checkpoints/`.
+<p align="justify">
+  <code>S2</code> uses the config file <code>cfgs/s2.yaml</code> and loads the stage-2 related checkpoints under <code>checkpoints/</code>.
+</p>
 
 ```bash
 bash s2.sh
@@ -115,17 +152,24 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --standalone --nproc-per-node=8 ru
 
 ## 📒 Inference
 
-The inference resources can be downloaded from [resources](https://pan.baidu.com/s/10-q5hfiGoQWiCP7B2WV6Xg?pwd=1234) with extraction code `1234`. The corresponding checkpoints will be uploaded later.
+<p align="justify">
+  The inference resources can be downloaded from <a href="https://pan.baidu.com/s/10-q5hfiGoQWiCP7B2WV6Xg?pwd=1234">resources</a> with extraction code <code>1234</code>.
+  The corresponding checkpoints will be uploaded later.
+</p>
 
 ### Test
 
-Run with:
+<p align="justify">
+  Run with:
+</p>
 
 ```bash
 bash test_cfg.sh
 ```
 
-If you want to override the default paths:
+<p align="justify">
+  If you want to override the default paths:
+</p>
 
 ```bash
 MODEL_PATH=checkpoints/inference/model.pth \
