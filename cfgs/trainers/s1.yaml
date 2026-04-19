@@ -1,0 +1,28 @@
+trainer: infd_trainer
+max_iter: 120000
+epoch_iter: 1000
+eval_iter: 1000000
+save_iter: 10000
+vis_iter: 2000
+
+ckpt_select_metric:
+  name: perc_loss
+  type: min
+
+lr_schedulers: 200000
+optimizers:
+  renderer:
+    name: adam
+    args: {lr: 1.8e-5, betas: [0.5, 0.9]}
+  disc:
+    name: adam
+    args: {lr: 1.8e-5, betas: [0.5, 0.9]}
+
+gan_start_after_iters: 0
+hrft_start_after_iters: 80000
+find_unused_parameters: true
+
+visualize:
+  resolution: 256
+  ds_samples: 8
+  ae_center_zoom_res: 1024

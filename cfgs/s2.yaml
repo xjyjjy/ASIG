@@ -1,0 +1,39 @@
+_base_:
+  - cfgs/models/s1.yaml
+  - cfgs/models/s2.yaml
+  - cfgs/trainers/s2.yaml
+
+model:
+  vae: /home/zwxionggroup/xiajy/model_save/diffusion/sdxl_s0_padv4/ae_div2k_pan_arg_map_tri_loss_2_fd_mv_s0/iter-20000.pth
+  renderer: /home/zwxionggroup/xiajy/model_save/diffusion/sdxl_s1_bp_pad_v4_lmdb_full/ae_div2k_pan_arg_map_tri_loss_2_fd_S1_pad_v4_lmdb/iter-70000.pth
+  unet: /home/zwxionggroup/xiajy/model_save/diffusion/sd_xl_bp_v2_1_ema_after/dm_pan_v4_xl_v2_1_after_4/iter-29000.pth
+  ema: /home/zwxionggroup/xiajy/model_save/diffusion/sd_xl_bp_v2_1_ema_after/dm_pan_v4_xl_v2_1_after_4/iter-29000.pth
+
+datasets:
+  train:
+    name: 360sp_pan_self_proj_fd
+    args:
+      dataset:
+        name: 360sp_pan_text_drop
+        args: {root_path: /home/zwxionggroup/xiajy/dataset/360/mv/rgb_train/, text_path: /home/zwxionggroup/xiajy/dataset/360/mv/text_train}
+      img_max: 512
+      patch_max: 128
+      ret_gt: false
+      arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat
+    loader:
+      batch_size: 2
+      num_workers: 16
+
+  val:
+    name: 360sp_pan_self_proj_fd
+    args:
+      dataset:
+        name: 360sp_pan_text
+        args: {root_path: /home/zwxionggroup/xiajy/dataset/360/mv/rgb_test/, text_path: /home/zwxionggroup/xiajy/dataset/360/mv/text_test, first_k: 800}
+      img_max: 512
+      patch_max: 128
+      ret_gt: false
+      arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat
+    loader:
+      batch_size: 8
+      num_workers: 16

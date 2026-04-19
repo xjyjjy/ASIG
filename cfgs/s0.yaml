@@ -1,0 +1,59 @@
+_base_:
+  - cfgs/models/s0.yaml
+  - cfgs/trainers/s0.yaml
+
+max_iter: 100000
+hrft_start_after_iters: 100000
+
+datasets:
+  train:
+    name: 360sp_pan_self_proj_fd
+    args:
+      dataset:
+        name: 360sp_pan_ae_argmap_fd
+        args: {root_path: /home/zwxionggroup/xiajy/dataset/360/mv/rgb_train/, arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat}
+      img_max: 512
+      patch_max: 128
+      resize_gt_lb: 256
+      resize_gt_ub: 1024
+      final_crop_gt: 256
+      arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat
+    loader:
+      batch_size: 2
+      num_workers: 16
+
+  train_hrft:
+    name: 360sp_pan_self_proj_fd
+    args:
+      dataset:
+        name: 360sp_pan_ae_argmap_fd
+        args: {root_path: /home/zwxionggroup/xiajy/dataset/360/mv/rgb_train/, arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat}
+      img_max: 512
+      patch_max: 128
+      resize_gt_lb: 256
+      resize_gt_ub: 1024
+      p_max: 0.5
+      final_crop_gt: 256
+      arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat
+    loader:
+      batch_size: 2
+      num_workers: 16
+
+  val:
+    name: 360sp_pan_self_proj_fd
+    args:
+      dataset:
+        name: 360sp_pan_ae_argmap_fd
+        args: {root_path: /home/zwxionggroup/xiajy/dataset/360/mv/rgb_test/, first_k: 100}
+      img_max: 512
+      patch_max: 64
+      resize_gt_lb: 256
+      resize_gt_ub: 1024
+      final_crop_gt: 256
+      arg_map_path: /home/zwxionggroup/xiajy/dataset/arg_map_dataset_v2/arg_map_mat
+    loader:
+      batch_size: 4
+      num_workers: 16
+
+visualize:
+  ae_center_zoom_res: 1024

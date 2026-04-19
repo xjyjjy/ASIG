@@ -1,0 +1,32 @@
+model:
+  name: infd
+  args:
+    encoder:
+      name: encoder_sdxl
+    quant_conv:
+      name: quant_conv_sdxl
+    post_quant_conv:
+      name: post_quant_conv_sdxl
+    z_shape: [5, 4, 128, 32]
+    train_method: pad_v1
+    z_gaussian: true
+    quantizer: false
+    pre_from_sd: false
+    n_embed: 8192
+    decoder:
+      name: decoder_sdxl
+    renderer:
+      name: renderer_concat_wrapper_pan
+      args:
+        z_dec_channels: 128
+        num_feature_levels: 0
+        net:
+          name: simple_renderer_net_larger
+          args: {in_channels: 3, hidden_channels: 16}
+    loss_cfg:
+      gan_g_loss: 1
+      kl_loss: 0
+      quant_loss: 1.e-2
+      perc_loss: 1
+    adaptive_gan_weight: true
+    disc: true

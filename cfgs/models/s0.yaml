@@ -1,0 +1,26 @@
+model:
+  name: infd
+  args:
+    encoder:
+      name: encoder_sdxl
+    quant_conv:
+      name: quant_conv_sdxl
+    post_quant_conv:
+      name: post_quant_conv_sdxl
+    z_gaussian: true
+    quantizer: false
+    pre_from_sd: false
+    encoder_trainable: true
+    n_embed: 8192
+    decoder:
+      name: decoder_sdxl
+      args:
+        gradient_checkpointing: true
+    loss_cfg:
+      gan_g_loss: 1
+      kl_loss: 1.e-6
+      quant_loss: 1.e-2
+      perc_loss: 1
+      perc_loss_downsample: true
+    adaptive_gan_weight: true
+    disc: true

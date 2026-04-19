@@ -1,0 +1,30 @@
+trainer: infd_trainer
+max_iter: 50000
+epoch_iter: 1000
+eval_iter: 500000
+save_iter: 1000
+vis_iter: 100000
+
+ckpt_select_metric:
+  name: z_dm_ema_loss
+  type: min
+
+lr_schedulers: 50000
+lr_schedulers_types: cosine
+max_lr: 2e-5
+min_lr: 1e-7
+total_steps: 100000
+warmup_steps: 2000
+
+optimizers:
+  z_dm:
+    name: adamw
+    args: {lr: 2e-5, weight_decay: 0.01}
+
+find_unused_parameters: true
+
+visualize:
+  resolution: 256
+  z_dm_samples: 1
+  bs: 1
+  z_dm_samples_zoom: [4, 4]
